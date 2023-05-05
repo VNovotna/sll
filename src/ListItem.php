@@ -23,7 +23,7 @@ class ListItem
         return $this->next;
     }
 
-    public function setNext(self $next): void
+    public function setNext(?self $next): void
     {
         $this->next = $next;
     }

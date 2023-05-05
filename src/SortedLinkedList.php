@@ -17,22 +17,49 @@ class SortedLinkedList
         }
 
         $current = $this->firstItem;
-        while ($current->getNext() !== null) {
+        $last = null;
+
+        while ($current !== null) {
+            if ($current->value > $item->value) {
+                $item->setNext($current);
+                if ($last === null) {
+                    $this->firstItem = $item;
+                } else {
+                    $last->setNext($item);
+                }
+                return;
+            }
+            $last = $current;
             $current = $current->getNext();
         }
-        $current->setNext($item);
+
+        $last->setNext($item);
     }
 
-    public function dump(): void
+    public function dumpArray(): array
     {
+        $ret = [];
         if ($this->firstItem === null) {
-            echo "[list is empty]" . PHP_EOL;
-            return;
+            return $ret;
         }
 
         $current = $this->firstItem;
         do {
-            echo $current->value . PHP_EOL;
+            $ret[] = $current->value;
         } while ($current = $current->getNext());
+        return $ret;
+    }
+
+    public function dump(): void
+    {
+        $values = $this->dumpArray();
+        if (empty($values)) {
+            echo "[list is empty]" . PHP_EOL;
+            return;
+        }
+
+        foreach ($values as $value) {
+            echo $value . PHP_EOL;
+        }
     }
 }

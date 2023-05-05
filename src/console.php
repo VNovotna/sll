@@ -19,18 +19,22 @@ use App\ListItem;
 
         $list = new SortedLinkedList();
 
-            $helper = $this->getHelper('question');
+        $helper = $this->getHelper('question');
         while (true) {
             $question = new Question('Add item to list: ');
             $itemValue = $helper->ask($input, $output, $question);
 
-            if (empty($itemValue)) {
-                $list->dump();
-            } else if ($itemValue === '-e') {
+            if ($itemValue === '-e') {
                 break;
-            } else {
+            } else if (!empty($itemValue)) {
                 echo "Adding '{$itemValue}'" . PHP_EOL;
-                $list->add(new ListItem($itemValue));
+                if (is_numeric($itemValue)) {
+                    $list->add(new ListItem((int) $itemValue));
+                } else {
+                    $list->add(new ListItem($itemValue));
+                }
+            } else {
+                $list->dump();
             }
         }
     })
